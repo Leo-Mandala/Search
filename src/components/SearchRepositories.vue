@@ -38,24 +38,28 @@ export default {
   },
   methods: {
     async getUserRepositories() {
-      const octokit = new Octokit({ auth: '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' });
-      try {
-        const response = await octokit.request('GET /users/{username}/repos', {
-          username: this.username,
-          headers: {
-            accept: 'application/vnd.github+json',
-          },
-          type: 'owner',
-          sort: 'full_name', 
-          direction: 'desc',
-          per_page: 30,
-          page: 1, 
-        });
-        this.repositories = response.data;
-      } catch (error) {
-        console.error("Error occurred:", error);
-      }
-    },
+  const octokit = new Octokit({ auth: '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' });
+  try {
+    const response = await octokit.request('GET /users/{username}/repos', {
+      username: this.username,
+      headers: {
+        accept: 'application/vnd.github+json',
+      },
+      type: 'owner',
+      sort: 'full_name',
+      direction: 'desc',
+      per_page: 30,
+      page: 1,
+    });
+    this.repositories = response.data;
+  } catch (error) {
+    console.error("Error occurred:", error);
+    if (error.status === 401) {
+      console.error("Authentication failed. Check your GitHub token.");
+    }
+  }
+},
+
   },
 };
 </script>
